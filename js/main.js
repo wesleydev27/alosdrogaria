@@ -115,6 +115,8 @@ function updateClock() {
   const h = now.getHours();
   const m = now.getMinutes();
   document.getElementById('clock').textContent = fmt(h) + ':' + fmt(m);
+  const dpClock = document.getElementById('dp-clock');
+  if (dpClock) dpClock.textContent = fmt(h) + ':' + fmt(m);
 
   // hero time tag (real day/night by hour, independent of theme)
   const isDayTime = h >= 6 && h < 18;
@@ -156,3 +158,15 @@ setInterval(updateClock, 30 * 1000);
 // ============== Marquee duplicate for seamless loop ==============
 const marquee = document.getElementById('marquee');
 marquee.innerHTML = marquee.innerHTML + marquee.innerHTML;
+
+// ============== Lottie delivery animation ==============
+const lottieContainer = document.getElementById('delivery-lottie');
+if (lottieContainer && typeof lottie !== 'undefined') {
+  lottie.loadAnimation({
+    container: lottieContainer,
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'assets/Delivery.json'
+  });
+}

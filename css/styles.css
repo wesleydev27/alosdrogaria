@@ -1227,8 +1227,10 @@ html[data-theme="dark"] .portrait-frame { background: var(--bone); }
   padding: 60px 0 80px;
 }
 .delivery-card {
-  background: linear-gradient(135deg, var(--wine-ink) 0%, var(--wine) 100%);
-  color: var(--cream);
+  background: #ffffff;
+  color: var(--wine-ink);
+  border: 1px solid var(--wine-line);
+  box-shadow: 0 8px 40px -12px rgba(92,10,32,0.12);
   border-radius: var(--r-xl);
   padding: 64px 56px;
   position: relative;
@@ -1239,10 +1241,6 @@ html[data-theme="dark"] .portrait-frame { background: var(--bone); }
   align-items: center;
   min-height: 380px;
 }
-html[data-theme="dark"] .delivery-card {
-  background: linear-gradient(135deg, var(--surface-dark) 0%, #4a0a1c 100%);
-  border: 1px solid var(--wine-line);
-}
 @media (max-width: 860px) { .delivery-card { grid-template-columns: 1fr; padding: 48px 32px; min-height: auto; } }
 
 .delivery-card::before {
@@ -1250,11 +1248,24 @@ html[data-theme="dark"] .delivery-card {
   position: absolute;
   top: -50%; right: -10%;
   width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(217, 195, 154, 0.10), transparent 60%);
+  background: radial-gradient(circle, rgba(92, 10, 32, 0.05), transparent 60%);
   pointer-events: none;
 }
 
+.delivery-lottie-wrap {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 1 / 1;
+}
+.delivery-lottie-wrap svg { width: 100% !important; height: 100% !important; }
+@media (max-width: 860px) { .delivery-lottie-wrap { max-width: 280px; order: 2; } }
+
 .delivery-content { position: relative; z-index: 2; }
+.delivery-eyebrow { color: var(--wine); opacity: 0.7; }
 
 .delivery-title {
   font-family: 'Cormorant Garamond', serif;
@@ -1262,15 +1273,15 @@ html[data-theme="dark"] .delivery-card {
   font-size: clamp(40px, 5.6vw, 72px);
   line-height: 0.98;
   letter-spacing: -0.02em;
-  color: var(--cream);
+  color: var(--wine);
   margin-bottom: 20px;
 }
-.delivery-title em { color: var(--gold-soft); font-style: italic; }
+.delivery-title em { color: var(--wine-deep); font-style: italic; }
 
 .delivery-sub {
   font-size: 17px;
   line-height: 1.55;
-  color: rgba(244, 238, 223, 0.78);
+  color: rgba(42, 4, 16, 0.65);
   max-width: 460px;
   margin-bottom: 32px;
 }
@@ -1296,7 +1307,7 @@ html[data-theme="dark"] .delivery-card {
 
 .delivery-hint {
   font-size: 13px;
-  color: rgba(244, 238, 223, 0.7);
+  color: rgba(42, 4, 16, 0.55);
   line-height: 1.4;
 }
 .delivery-hint strong {
@@ -1304,7 +1315,7 @@ html[data-theme="dark"] .delivery-card {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 18px;
-  color: var(--gold-soft);
+  color: var(--wine);
   font-weight: 500;
 }
 
@@ -1400,6 +1411,185 @@ html[data-theme="dark"] .delivery-card {
   .route-pin svg { width: 18px; height: 18px; }
   .route-moto { width: 60px; height: 30px; }
 }
+
+/* ============ Phone app mockup ============ */
+.delivery-phone-wrap {
+  position: relative;
+  display: inline-flex;
+  align-self: center;
+  justify-self: center;
+  z-index: 2;
+  line-height: 0;
+}
+.delivery-mockup-img {
+  max-height: 400px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 28px 52px rgba(0,0,0,0.55));
+}
+/* App overlay sobreposto à tela do mackupgps.png
+   iPhone X — tela: top≈9%, left≈6.5%, right≈6.5%, bottom≈15%
+   (bottom maior para não invadir o home-indicator do iPhone X) */
+.dp-app-overlay {
+  position: absolute;
+  top: 9%;
+  left: 6.5%;
+  right: 6.5%;
+  bottom: 15%;
+  overflow: hidden;
+  border-radius: 6%;
+  background: #160A12;
+  display: flex;
+  flex-direction: column;
+}
+.dp-statusbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 14px 3px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.02em;
+  color: rgba(244,238,223,0.9);
+}
+.dp-statusicons { display: flex; gap: 4px; align-items: center; color: rgba(244,238,223,0.8); }
+.dp-appbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 2px 13px 7px;
+}
+.dp-applogo {
+  display: flex; align-items: center; gap: 5px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-weight: 500; font-style: italic;
+  color: rgba(244,238,223,0.95); letter-spacing: 0.01em;
+}
+.dp-applogo svg { color: #E55A75; flex-shrink: 0; }
+.dp-live {
+  font-size: 8.5px; font-weight: 700;
+  color: #4ade80;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.dp-map {
+  position: relative;
+  height: 105px;
+  flex-shrink: 0;
+  background: #1B1022;
+  overflow: hidden;
+}
+.dp-map::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.dp-map::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: 66px 66px;
+}
+.dp-map-svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; z-index: 1;
+}
+.dp-routeline {
+  animation: dp-draw 3.2s var(--easing) 0.5s forwards;
+}
+@keyframes dp-draw { to { stroke-dashoffset: 0; } }
+.dp-rider {
+  position: absolute; top: 0; left: 0; z-index: 2;
+  color: #D9C39A;
+  offset-path: path("M 20 90 C 55 58, 80 50, 105 60 C 130 70, 150 34, 192 14");
+  offset-rotate: auto;
+  offset-distance: 0%;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.7));
+  animation: dp-rider-go 5.5s linear 1.5s infinite;
+}
+@keyframes dp-rider-go {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  6%   { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.dp-maplabel {
+  position: absolute; font-size: 8.5px; font-weight: 700;
+  padding: 2px 7px; border-radius: 6px;
+  font-family: 'Manrope', sans-serif; letter-spacing: 0.02em; z-index: 2;
+}
+.dp-maplabel-a {
+  bottom: 14px; left: 8px;
+  background: rgba(92,10,32,0.9); color: rgba(244,238,223,0.95);
+  border: 1px solid rgba(229,90,117,0.2);
+}
+.dp-maplabel-b { top: 9px; right: 10px; background: #D9C39A; color: #2A0410; }
+.dp-eta-chip {
+  position: absolute; bottom: 10px; right: 10px; z-index: 2;
+  display: flex; align-items: center; gap: 4px;
+  font-size: 9px; font-weight: 700; color: #D9C39A;
+  background: rgba(14,6,16,0.88);
+  border: 1px solid rgba(217,195,154,0.2);
+  padding: 3px 8px; border-radius: 20px;
+  backdrop-filter: blur(6px);
+  font-family: 'Manrope', sans-serif;
+}
+.dp-tracker {
+  background: #1E0D16;
+  padding: 9px 13px 10px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  flex-shrink: 0;
+}
+.dp-tracker-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px; font-style: italic; font-weight: 500;
+  color: rgba(244,238,223,0.95); margin-bottom: 7px;
+}
+.dp-steplist { list-style: none; display: flex; flex-direction: column; }
+.dp-step {
+  display: flex; align-items: flex-start; gap: 8px;
+  position: relative; padding-bottom: 6px;
+}
+.dp-step:last-child { padding-bottom: 0; }
+.dp-stepdot {
+  width: 17px; height: 17px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  display: grid; place-items: center;
+  position: relative; z-index: 1;
+}
+.dp-stepdot svg { width: 9px; height: 9px; color: transparent; display: block; }
+.dp-step--done .dp-stepdot { background: #15803d; border-color: #15803d; }
+.dp-step--done .dp-stepdot svg { color: #fff; }
+.dp-step--active .dp-stepdot {
+  background: #5C0A20; border-color: #D9C39A;
+  box-shadow: 0 0 0 4px rgba(92,10,32,0.3);
+}
+.dp-pulse {
+  width: 8px; height: 8px; background: #D9C39A;
+  border-radius: 50%; display: block;
+  animation: dp-pulse-anim 1.6s ease-out infinite;
+}
+@keyframes dp-pulse-anim {
+  0%   { box-shadow: 0 0 0 0 rgba(217,195,154,0.75); }
+  70%  { box-shadow: 0 0 0 5px rgba(217,195,154,0); }
+  100% { box-shadow: 0 0 0 0 rgba(217,195,154,0); }
+}
+.dp-stepline {
+  position: absolute; left: 7.5px; top: 17px;
+  width: 2px; height: calc(100% - 3px);
+  background: rgba(255,255,255,0.07); z-index: 0;
+}
+.dp-step--done   .dp-stepline { background: rgba(21,128,61,0.3); }
+.dp-step--active .dp-stepline { background: rgba(217,195,154,0.1); }
+.dp-step:last-child .dp-stepline { display: none; }
+.dp-steplabel {
+  font-size: 10.5px; font-weight: 500; padding-top: 1px;
+  color: rgba(244,238,223,0.35);
+  font-family: 'Manrope', sans-serif;
+}
+.dp-step--done   .dp-steplabel { color: rgba(244,238,223,0.55); }
+.dp-step--active .dp-steplabel { color: rgba(244,238,223,0.95); font-weight: 700; font-size: 11px; }
+@media (max-width: 860px) { .delivery-phone-wrap { display: none; } }
 
 /* ============== HORARIO E LOCAL ============== */
 .visit {

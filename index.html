@@ -42,7 +42,7 @@
   "image": "assets/fachada.webp",
   "@id": "https://alosdrogaria.com.br/",
   "url": "https://alosdrogaria.com.br/",
-  "telephone": "+55 19 99083-5947",
+  "telephone": "+55 19 99003-5947",
   "priceRange": "$$",
   "address": {
     "@type": "PostalAddress",
@@ -447,7 +447,7 @@
           </li>
         </ol>
 
-        <a href="https://wa.me/5519990835947?text=Olá%2C%20gostaria%20de%20saber%20sobre%20os%20serviços%20farmacêuticos%20da%20Alos." target="_blank" rel="noopener" class="servs-cta reveal">
+        <a href="https://wa.me/5519990035947?text=Olá%2C%20gostaria%20de%20saber%20sobre%20os%20serviços%20farmacêuticos%20da%20Alos." target="_blank" rel="noopener" class="servs-cta reveal">
           <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 2.667c-7.36 0-13.333 5.973-13.333 13.333 0 2.347.613 4.64 1.787 6.667l-1.893 6.92 7.093-1.86c1.96 1.067 4.16 1.633 6.347 1.633h.005c7.36 0 13.333-5.973 13.333-13.333S23.36 2.667 16 2.667zm6.067 16.107c-.333-.16-1.973-.973-2.28-1.08-.307-.107-.533-.16-.747.16-.213.32-.853 1.08-1.04 1.293-.187.213-.387.24-.72.08-.333-.16-1.413-.52-2.693-1.667-.987-.88-1.667-1.973-1.853-2.307-.187-.32-.027-.493.147-.667.147-.147.32-.387.493-.587.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.747-1.787-1.013-2.44-.267-.64-.547-.547-.747-.547h-.64c-.213 0-.56.08-.853.4-.293.32-1.12 1.093-1.12 2.667 0 1.573 1.147 3.093 1.307 3.307.16.213 2.253 3.44 5.467 4.827.76.32 1.36.533 1.827.667.773.24 1.467.213 2.027.133.613-.093 1.973-.8 2.253-1.587.28-.787.28-1.453.187-1.6-.093-.147-.32-.213-.667-.373z"/></svg>
           <span>Tirar dúvidas no WhatsApp</span>
           <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
@@ -461,43 +461,16 @@
 <section class="block delivery" id="entrega">
   <div class="container">
     <div class="delivery-card reveal">
-      <!-- Animated route -->
-      <div class="route" aria-hidden="true">
-        <svg viewBox="0 0 600 200" preserveAspectRatio="none" class="route-svg">
-          <defs>
-            <pattern id="route-dash" x="0" y="0" width="12" height="2" patternUnits="userSpaceOnUse">
-              <rect width="6" height="2" fill="currentColor" opacity="0.4"/>
-            </pattern>
-          </defs>
-          <path class="route-path" d="M 20 150 Q 150 40, 280 110 T 580 60" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 8" opacity="0.35"/>
-          <path class="route-path-fg" d="M 20 150 Q 150 40, 280 110 T 580 60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-        <div class="route-store" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9 L12 3 L21 9 V21 H3 z M9 21 V13 H15 V21" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="route-pin" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 C 8 2, 5 5, 5 9 c 0 5.5 7 13 7 13 s 7-7.5 7-13 c 0-4 -3-7 -7-7 z M12 11.5 a 2.5 2.5 0 1 1 0-5 a 2.5 2.5 0 0 1 0 5 z"/></svg>
-        </div>
-        <div class="route-moto" aria-hidden="true">
-          <svg viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="14" cy="24" r="6" fill="currentColor" fill-opacity="0.12"/>
-            <circle cx="50" cy="24" r="6" fill="currentColor" fill-opacity="0.12"/>
-            <path d="M14 24 L26 24 L34 14 L46 14 L50 24"/>
-            <path d="M28 14 L38 14"/>
-            <rect x="36" y="4" width="14" height="12" rx="2" fill="currentColor" fill-opacity="0.18"/>
-            <path d="M40 8 H46 M40 11 H46" stroke-width="1"/>
-            <circle cx="42" cy="10" r="1.5" fill="currentColor"/>
-          </svg>
-        </div>
-      </div>
+      <!-- Lottie delivery animation -->
+      <div class="delivery-lottie-wrap" id="delivery-lottie" aria-hidden="true"></div>
 
       <div class="delivery-content">
-        <div class="eyebrow" style="margin-bottom:18px;color:var(--gold-soft);">— Tele-entrega</div>
+        <div class="eyebrow delivery-eyebrow" style="margin-bottom:18px;">— Tele-entrega</div>
         <h2 class="delivery-title">Entregamos em<br/>toda <em>Louveira</em><br/>e <em>região.</em></h2>
         <p class="delivery-sub">Peça pelo WhatsApp e a gente leva até você. Medicamentos de uso contínuo, fraldas, produtos do dia a dia — chega na porta sem sair de casa.</p>
 
         <div class="delivery-actions">
-          <a href="https://wa.me/5519990835947?text=Olá%2C%20gostaria%20de%20fazer%20um%20pedido%20para%20entrega." target="_blank" rel="noopener" class="delivery-cta">
+          <a href="https://wa.me/5519990035947?text=Olá%2C%20gostaria%20de%20fazer%20um%20pedido%20para%20entrega." target="_blank" rel="noopener" class="delivery-cta">
             <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 2.667c-7.36 0-13.333 5.973-13.333 13.333 0 2.347.613 4.64 1.787 6.667l-1.893 6.92 7.093-1.86c1.96 1.067 4.16 1.633 6.347 1.633h.005c7.36 0 13.333-5.973 13.333-13.333S23.36 2.667 16 2.667zm6.067 16.107c-.333-.16-1.973-.973-2.28-1.08-.307-.107-.533-.16-.747.16-.213.32-.853 1.08-1.04 1.293-.187.213-.387.24-.72.08-.333-.16-1.413-.52-2.693-1.667-.987-.88-1.667-1.973-1.853-2.307-.187-.32-.027-.493.147-.667.147-.147.32-.387.493-.587.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.747-1.787-1.013-2.44-.267-.64-.547-.547-.747-.547h-.64c-.213 0-.56.08-.853.4-.293.32-1.12 1.093-1.12 2.667 0 1.573 1.147 3.093 1.307 3.307.16.213 2.253 3.44 5.467 4.827.76.32 1.36.533 1.827.667.773.24 1.467.213 2.027.133.613-.093 1.973-.8 2.253-1.587.28-.787.28-1.453.187-1.6-.093-.147-.32-.213-.667-.373z"/></svg>
             Pedir pelo WhatsApp
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow"><path d="M5 12 H19 M13 6 L19 12 L13 18"/></svg>
@@ -718,7 +691,7 @@
       <path d="M5 12l7-7 7 7"/>
     </svg>
   </button>
-  <a class="fab fab-wpp" href="https://wa.me/5519990835947?text=Olá%2C%20gostaria%20de%20falar%20com%20a%20Alos%20Drogaria." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <a class="fab fab-wpp" href="https://wa.me/5519990035947?text=Olá%2C%20gostaria%20de%20falar%20com%20a%20Alos%20Drogaria." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
     <span class="fab-pulse" aria-hidden="true"></span>
     <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
       <path d="M16.001 2.667c-7.36 0-13.333 5.973-13.333 13.333 0 2.347.613 4.64 1.787 6.667l-1.893 6.92 7.093-1.86c1.96 1.067 4.16 1.633 6.347 1.633h.005c7.36 0 13.333-5.973 13.333-13.333S23.36 2.667 16 2.667zm0 24.4c-1.973 0-3.92-.533-5.627-1.547l-.4-.24-4.213 1.107 1.12-4.107-.267-.427c-1.107-1.76-1.693-3.787-1.693-5.853 0-6.107 4.973-11.08 11.08-11.08s11.08 4.973 11.08 11.08-4.973 11.067-11.08 11.067zm6.067-8.293c-.333-.16-1.973-.973-2.28-1.08-.307-.107-.533-.16-.747.16-.213.32-.853 1.08-1.04 1.293-.187.213-.387.24-.72.08-.333-.16-1.413-.52-2.693-1.667-.987-.88-1.667-1.973-1.853-2.307-.187-.32-.027-.493.147-.667.147-.147.32-.387.493-.587.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.747-1.787-1.013-2.44-.267-.64-.547-.547-.747-.547h-.64c-.213 0-.56.08-.853.4-.293.32-1.12 1.093-1.12 2.667 0 1.573 1.147 3.093 1.307 3.307.16.213 2.253 3.44 5.467 4.827.76.32 1.36.533 1.827.667.773.24 1.467.213 2.027.133.613-.093 1.973-.8 2.253-1.587.28-.787.28-1.453.187-1.6-.093-.147-.32-.213-.667-.373z"/>
@@ -772,7 +745,7 @@
         <div class="foot-col">
           <h5>Fale conosco</h5>
           <ul>
-            <li><a href="https://wa.me/5519990835947" target="_blank" rel="noopener" class="foot-link-gold">WhatsApp ↗</a></li>
+            <li><a href="https://wa.me/5519990035947" target="_blank" rel="noopener" class="foot-link-gold">WhatsApp ↗</a></li>
             <li><a href="https://www.instagram.com/alos_drogaria/" target="_blank" rel="noopener">Instagram</a></li>
             <li><a href="mailto:contato@alosdrogaria.com.br">E-mail</a></li>
           </ul>
@@ -837,7 +810,7 @@
         <a href="https://www.instagram.com/alos_drogaria/" target="_blank" rel="noopener" class="fb-social" aria-label="Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
         </a>
-        <a href="https://wa.me/5519990835947" target="_blank" rel="noopener" class="fb-social" aria-label="WhatsApp">
+        <a href="https://wa.me/5519990035947" target="_blank" rel="noopener" class="fb-social" aria-label="WhatsApp">
           <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 2.667c-7.36 0-13.333 5.973-13.333 13.333 0 2.347.613 4.64 1.787 6.667l-1.893 6.92 7.093-1.86c1.96 1.067 4.16 1.633 6.347 1.633h.005c7.36 0 13.333-5.973 13.333-13.333S23.36 2.667 16 2.667zm6.067 16.107c-.333-.16-1.973-.973-2.28-1.08-.307-.107-.533-.16-.747.16-.213.32-.853 1.08-1.04 1.293-.187.213-.387.24-.72.08-.333-.16-1.413-.52-2.693-1.667-.987-.88-1.667-1.973-1.853-2.307-.187-.32-.027-.493.147-.667.147-.147.32-.387.493-.587.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.747-1.787-1.013-2.44-.267-.64-.547-.547-.747-.547h-.64c-.213 0-.56.08-.853.4-.293.32-1.12 1.093-1.12 2.667 0 1.573 1.147 3.093 1.307 3.307.16.213 2.253 3.44 5.467 4.827.76.32 1.36.533 1.827.667.773.24 1.467.213 2.027.133.613-.093 1.973-.8 2.253-1.587.28-.787.28-1.453.187-1.6-.093-.147-.32-.213-.667-.373z"/></svg>
         </a>
         <a href="https://www.google.com/maps/search/?api=1&query=Rua+Treze+de+Junho+20+Louveira" target="_blank" rel="noopener" class="fb-social" aria-label="Google Maps">
@@ -851,6 +824,7 @@
   </div>
 </footer>
 
+<script src="js/lottie.min.js"></script>
 <script src="js/main.js"></script>
 
 </body>
