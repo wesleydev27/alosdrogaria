@@ -114,7 +114,8 @@ function updateClock() {
   const now = new Date();
   const h = now.getHours();
   const m = now.getMinutes();
-  document.getElementById('clock').textContent = fmt(h) + ':' + fmt(m);
+  const s = now.getSeconds();
+  document.getElementById('clock').textContent = fmt(h) + ':' + fmt(m) + ':' + fmt(s);
   const dpClock = document.getElementById('dp-clock');
   if (dpClock) dpClock.textContent = fmt(h) + ':' + fmt(m);
 
@@ -153,7 +154,7 @@ function updateClock() {
   });
 }
 updateClock();
-setInterval(updateClock, 30 * 1000);
+setInterval(updateClock, 1000);
 
 // ============== Marquee duplicate for seamless loop ==============
 const marquee = document.getElementById('marquee');
