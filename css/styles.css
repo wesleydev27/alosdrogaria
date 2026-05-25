@@ -95,15 +95,18 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   padding: 18px 0;
-  transition: background 0.4s var(--easing), backdrop-filter 0.4s, padding 0.4s, border-color 0.4s;
+  transition: background 0.4s var(--easing), backdrop-filter 0.4s, padding 0.4s, border-color 0.4s, transform 0.5s var(--easing);
   border-bottom: 1px solid transparent;
+}
+.nav--hidden {
+  transform: translateY(-110%);
 }
 .nav.scrolled {
   background: rgba(var(--paper-rgb), 0.85);
   backdrop-filter: saturate(140%) blur(14px);
   -webkit-backdrop-filter: saturate(140%) blur(14px);
   border-bottom-color: var(--wine-line);
-  padding: 12px 0;
+  padding: 10px 0;
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .nav-logo {
@@ -112,9 +115,11 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   font-size: 26px; font-weight: 600;
   color: var(--wine);
   letter-spacing: -0.01em;
+  align-self: center;
 }
-.nav-logo img { height: 72px; width: auto; transition: height 0.4s var(--easing), filter 0.4s var(--easing); }
-.nav.scrolled .nav-logo img { height: 56px; }
+.nav-logo img { display: block; }
+.nav-logo img { height: 110px; width: auto; transition: height 0.4s var(--easing), filter 0.4s var(--easing); }
+.nav.scrolled .nav-logo img { height: 70px; }
 html[data-theme="dark"] .nav-logo img { filter: brightness(0) invert(0.94); }
 .nav-links {
   display: flex; align-items: center; gap: 36px;
@@ -245,7 +250,7 @@ html[data-theme="dark"] .theme-toggle .ico-moon { opacity: 1; transform: rotate(
 .hero {
   position: relative;
   min-height: 100vh;
-  padding: 140px 0 80px;
+  padding: 180px 0 80px;
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, var(--wine-soft), transparent 60%),
     var(--paper);
@@ -262,7 +267,7 @@ html[data-theme="dark"] .hero {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   gap: 60px;
-  align-items: center;
+  align-items: start;
 }
 @media (max-width: 980px) {
   .hero-grid { grid-template-columns: 1fr; gap: 40px; }

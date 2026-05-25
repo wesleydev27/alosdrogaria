@@ -86,11 +86,35 @@ const onScrollFab = () => {
 window.addEventListener('scroll', onScrollFab, { passive: true });
 onScrollFab();
 
-// ============== NAV scrolled state ==============
+// ============== NAV scrolled + hide on scroll ==============
 const nav = document.getElementById('nav');
+let lastScrollY = 0;
+let hideTimer = null;
+
 const onScroll = () => {
-  if (window.scrollY > 24) nav.classList.add('scrolled');
+  const y = window.scrollY;
+
+  // scrolled background
+  if (y > 24) nav.classList.add('scrolled');
   else nav.classList.remove('scrolled');
+
+  // hide on scroll down, show on scroll up
+  if (y > 120) {
+    if (y > lastScrollY) {
+      // scrolling down — delay antes de esconder
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => nav.classList.add('nav--hidden'), 300);
+    } else {
+      // scrolling up — aparece imediatamente
+      clearTimeout(hideTimer);
+      nav.classList.remove('nav--hidden');
+    }
+  } else {
+    clearTimeout(hideTimer);
+    nav.classList.remove('nav--hidden');
+  }
+
+  lastScrollY = y;
 };
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
