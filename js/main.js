@@ -195,3 +195,108 @@ if (lottieContainer && typeof lottie !== 'undefined') {
     path: 'assets/Delivery.json'
   });
 }
+
+// ============== Count-up animation ==============
+function countUp(el) {
+  const target   = +el.dataset.count;
+  const suffix   = el.dataset.suffix  || '';
+  const prefix   = el.dataset.prefix  || '';
+  const pad      = +el.dataset.pad    || 0;
+  const thousands = el.dataset.thousands || '';
+  const duration = 1400;
+  const start    = performance.now();
+
+  function format(n) {
+    let str = Math.round(n).toString();
+    if (pad) str = str.padStart(pad, '0');
+    if (thousands) str = str.replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
+    return prefix + str + suffix;
+  }
+
+  function tick(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    el.textContent = format(ease * target);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+const countEls = document.querySelectorAll('.num[data-count]');
+const countIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      countUp(e.target);
+      countIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+// Start observing only after hero-stats fades in, so count-up is visible
+const heroStats = document.querySelector('.hero-stats');
+function startCountObserver() {
+  countEls.forEach(el => countIO.observe(el));
+}
+if (heroStats) {
+  heroStats.addEventListener('animationend', startCountObserver, { once: true });
+} else {
+  startCountObserver();
+}
+
+// ============== Typewriter hero title ==============
+(function () {
+  const phrases = [
+    { accent: 'receita',      rest: ' há gerações.'       },
+    { accent: 'porta',        rest: ' com tele-entrega.'  },
+    { accent: 'farmacêutico', rest: ' no balcão.'         },
+    { accent: 'saúde',        rest: ' de bairro.'         },
+    { accent: 'cuidado',      rest: ' pelo nome.'         },
+  ];
+
+  const accentEl = document.getElementById('tw-accent');
+  const restEl   = document.getElementById('tw-rest');
+  if (!accentEl || !restEl) return;
+
+  const SPEED_TYPE   = 130;  // ms per char while typing
+  const SPEED_DELETE = 45;   // ms per char while deleting
+  const PAUSE_AFTER  = 4800; // ms to hold the full phrase
+  const PAUSE_NEXT   = 500;  // ms pause after deleting before next phrase
+  const PAUSE_START  = 900;  // ms before first phrase begins
+
+  let idx = 0;
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  async function typeText(el, text, speed) {
+    for (let i = 0; i <= text.length; i++) {
+      el.textContent = text.slice(0, i);
+      await sleep(speed + (Math.random() * 14 - 7));
+    }
+  }
+
+  async function deleteText(el, speed) {
+    const text = el.textContent;
+    for (let i = text.length; i >= 0; i--) {
+      el.textContent = text.slice(0, i);
+      await sleep(speed + (Math.random() * 10 - 5));
+    }
+  }
+
+  async function loop() {
+    await sleep(PAUSE_START);
+    while (true) {
+      const { accent, rest } = phrases[idx];
+      await typeText(accentEl, accent, SPEED_TYPE);
+      await typeText(restEl, rest, SPEED_TYPE);
+      await sleep(PAUSE_AFTER);
+      await deleteText(restEl, SPEED_DELETE);
+      await deleteText(accentEl, SPEED_DELETE);
+      await sleep(PAUSE_NEXT);
+      idx = (idx + 1) % phrases.length;
+    }
+  }
+
+  loop();
+})();
