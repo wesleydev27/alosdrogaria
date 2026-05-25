@@ -300,3 +300,42 @@ if (heroStats) {
 
   loop();
 })();
+
+// ============== Portrait crossfade (timer + scroll) ==============
+(function () {
+  const frame  = document.getElementById('portrait-frame');
+  const slides = frame ? frame.querySelectorAll('.portrait-slide') : [];
+  const shine  = frame ? frame.querySelector('.portrait-shine') : null;
+  if (slides.length < 2) return;
+
+  let current = 0;
+  let lastSwitchY = window.scrollY;
+  const SCROLL_THRESHOLD = 120;
+
+  function triggerShine() {
+    if (!shine) return;
+    shine.classList.remove('shine-play');
+    // force reflow so the class removal is committed before re-adding
+    void shine.offsetWidth;
+    shine.classList.add('shine-play');
+    shine.addEventListener('transitionend', () => shine.classList.remove('shine-play'), { once: true });
+  }
+
+  function switchPortrait() {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+    triggerShine();
+    lastSwitchY = window.scrollY;
+  }
+
+  // Troca automática a cada 10s
+  setInterval(switchPortrait, 10000);
+
+  // Troca ao rolar (sobe ou desce) mais de SCROLL_THRESHOLD desde a última troca
+  window.addEventListener('scroll', () => {
+    if (Math.abs(window.scrollY - lastSwitchY) >= SCROLL_THRESHOLD) {
+      switchPortrait();
+    }
+  }, { passive: true });
+})();
