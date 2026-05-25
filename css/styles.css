@@ -275,7 +275,9 @@ html[data-theme="dark"] .hero {
 }
 @media (max-width: 540px) {
   .hero-visual { margin-top: 48px; }
-  .hero { padding-top: 110px; }
+  .hero { padding-top: 160px; }
+  .nav-logo img { height: 72px; }
+  .nav.scrolled .nav-logo img { height: 56px; }
 }
 
 .hero-eyebrow {
