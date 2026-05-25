@@ -1,341 +1,351 @@
-// ============== Theme toggle ==============
-const root = document.documentElement;
-const themeBtn = document.getElementById('theme-toggle');
-const storedTheme = localStorage.getItem('alos-theme');
-// Auto: 6h–18h light, else dark — unless the user has explicitly chosen
-function autoTheme() {
-  const h = new Date().getHours();
-  return (h >= 6 && h < 18) ? 'light' : 'dark';
-}
-const initialTheme = storedTheme || autoTheme();
-root.setAttribute('data-theme', initialTheme);
+// ─── Relógio e status da loja ───────────────────────────────────────────────
 
-function setTheme(t, manual = true) {
-  root.setAttribute('data-theme', t);
-  if (manual) localStorage.setItem('alos-theme', t);
-  updateClock();
+function fmt(n) { return String(n).padStart(2, '0'); }
+
+function horariosDoDia(d) {
+  return d === 0 ? [6, 20] : [6, 22]; // domingo fecha mais cedo
 }
-themeBtn.addEventListener('click', () => {
-  const cur = root.getAttribute('data-theme');
-  setTheme(cur === 'dark' ? 'light' : 'dark', true);
-});
-// Auto-switch every 5 min IF the user hasn't manually chosen
-setInterval(() => {
-  if (!localStorage.getItem('alos-theme')) {
-    setTheme(autoTheme(), false);
+
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  const day = now.getDay();
+  const [abre, fecha] = horariosDoDia(day);
+  const aberta = h >= abre && h < fecha;
+
+  // Relógios na página
+  document.getElementById('clock').textContent = `${fmt(h)}:${fmt(m)}:${fmt(s)}`;
+  const dpClock = document.getElementById('dp-clock');
+  if (dpClock) dpClock.textContent = `${fmt(h)}:${fmt(m)}`;
+
+  // Tag dia / noite no hero
+  const tag = document.getElementById('ht-label');
+  if (tag) tag.textContent = `${h >= 6 && h < 18 ? 'Dia' : 'Noite'} · ${fmt(h)}:${fmt(m)}`;
+
+  // Badge e texto de status
+  const statusEl   = document.getElementById('hero-status');
+  const statusText = document.getElementById('status-text');
+  const liveBadge  = document.getElementById('live-badge');
+  const liveText   = document.getElementById('live-text');
+
+  if (aberta) {
+    statusEl.classList.remove('closed');
+    liveBadge.classList.remove('closed');
+    statusText.textContent = `Aberta agora · até ${fmt(fecha)}h`;
+    liveText.textContent   = `Aberta agora · até ${fmt(fecha)}h`;
+  } else {
+    statusEl.classList.add('closed');
+    liveBadge.classList.add('closed');
+    const nextDay = h < abre ? day : (day + 1) % 7;
+    const dias    = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+    const quando  = h < abre ? 'hoje' : nextDay === (day + 1) % 7 ? 'amanhã' : dias[nextDay];
+    statusText.textContent = `Fechada agora · abre ${quando} às 06h`;
+    liveText.textContent   = 'Fechada · abre às 06h';
   }
-}, 5 * 60 * 1000);
 
-// ============== Hero parallax on mouse ==============
-const heroVis = document.querySelector('.hero-visual');
-if (heroVis && window.matchMedia('(hover: hover)').matches) {
+  // Destaca o dia atual na tabela de horários
+  document.querySelectorAll('.day-row').forEach(r => {
+    r.classList.toggle('today', parseInt(r.dataset.day) === day);
+  });
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+
+// ─── Tema claro / escuro ─────────────────────────────────────────────────────
+
+(function () {
+  const root      = document.documentElement;
+  const themeBtn  = document.getElementById('theme-toggle');
+  const STORAGE_KEY = 'alos-theme';
+
+  // Entre 6h e 18h é dia; fora disso, noite
+  function autoTheme() {
+    const h = new Date().getHours();
+    return h >= 6 && h < 18 ? 'light' : 'dark';
+  }
+
+  function setTheme(t, manual = true) {
+    root.setAttribute('data-theme', t);
+    if (manual) localStorage.setItem(STORAGE_KEY, t);
+    updateClock(); // atualiza badge dia/noite
+  }
+
+  // Aplica tema salvo ou automático
+  setTheme(localStorage.getItem(STORAGE_KEY) || autoTheme(), false);
+
+  // Botão de alternância
+  themeBtn.addEventListener('click', () => {
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // Reavalia a cada 5 min se o usuário não escolheu manualmente
+  setInterval(() => {
+    if (!localStorage.getItem(STORAGE_KEY)) setTheme(autoTheme(), false);
+  }, 5 * 60 * 1000);
+})();
+
+
+// ─── Parallax do hero com o mouse (só em dispositivos com hover) ─────────────
+
+(function () {
+  const heroVis = document.querySelector('.hero-visual');
+  if (!heroVis || !window.matchMedia('(hover: hover)').matches) return;
+
   const frame = heroVis.querySelector('.hero-frame');
   const badge = heroVis.querySelector('.hero-badge');
   const quote = heroVis.querySelector('.hero-quote');
+
   heroVis.addEventListener('mousemove', (e) => {
     const r = heroVis.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
+    const y = (e.clientY - r.top)  / r.height - 0.5;
     frame.style.transform = `translate(${x * -10}px, ${y * -10}px)`;
-    badge.style.transform = `translate(${x * 18}px, ${y * 18}px)`;
-    quote.style.transform = `translate(${x * 22}px, ${y * 22}px)`;
+    badge.style.transform = `translate(${x * 18}px,  ${y * 18}px)`;
+    quote.style.transform = `translate(${x * 22}px,  ${y * 22}px)`;
   });
+
   heroVis.addEventListener('mouseleave', () => {
     frame.style.transform = '';
     badge.style.transform = '';
     quote.style.transform = '';
   });
-}
+})();
 
-// ============== Mobile nav burger ==============
-const burger = document.getElementById('nav-burger');
-const navLinks = document.querySelector('.nav-links');
-let scrim = document.createElement('div');
-scrim.className = 'nav-scrim';
-document.body.appendChild(scrim);
-function closeMenu() {
-  burger.classList.remove('open');
-  navLinks.classList.remove('open');
-  scrim.classList.remove('open');
-  burger.setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-function openMenu() {
-  burger.classList.add('open');
-  navLinks.classList.add('open');
-  scrim.classList.add('open');
-  burger.setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden';
-}
-burger.addEventListener('click', () => {
-  if (burger.classList.contains('open')) closeMenu();
-  else openMenu();
-});
-scrim.addEventListener('click', closeMenu);
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
-// ============== Back-to-top FAB ==============
-const fabTop = document.getElementById('fab-top');
-fabTop.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-const onScrollFab = () => {
-  if (window.scrollY > window.innerHeight * 0.6) fabTop.classList.add('visible');
-  else fabTop.classList.remove('visible');
-};
-window.addEventListener('scroll', onScrollFab, { passive: true });
-onScrollFab();
+// ─── Menu mobile ─────────────────────────────────────────────────────────────
 
-// ============== NAV scrolled + hide on scroll ==============
-const nav = document.getElementById('nav');
-let lastScrollY = 0;
-let hideTimer = null;
+(function () {
+  const burger   = document.getElementById('nav-burger');
+  const navLinks = document.querySelector('.nav-links');
+  const scrim    = document.createElement('div');
+  scrim.className = 'nav-scrim';
+  document.body.appendChild(scrim);
 
-const onScroll = () => {
-  const y = window.scrollY;
+  function closeMenu() {
+    burger.classList.remove('open');
+    navLinks.classList.remove('open');
+    scrim.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
 
-  // scrolled background
-  if (y > 24) nav.classList.add('scrolled');
-  else nav.classList.remove('scrolled');
+  function openMenu() {
+    burger.classList.add('open');
+    navLinks.classList.add('open');
+    scrim.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
 
-  // hide on scroll down, show on scroll up
-  if (y > 120) {
-    if (y > lastScrollY) {
-      // scrolling down — delay antes de esconder
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => nav.classList.add('nav--hidden'), 300);
+  burger.addEventListener('click', () => burger.classList.contains('open') ? closeMenu() : openMenu());
+  scrim.addEventListener('click', closeMenu);
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+})();
+
+
+// ─── Botão voltar ao topo ────────────────────────────────────────────────────
+
+(function () {
+  const fab = document.getElementById('fab-top');
+  fab.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  function update() {
+    fab.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+
+// ─── Navbar: fundo ao rolar + ocultar ao descer ──────────────────────────────
+
+(function () {
+  const nav = document.getElementById('nav');
+  let lastY = 0, timer = null;
+
+  function update() {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 24);
+
+    if (y > 120) {
+      if (y > lastY) {
+        // Descendo — pequeno delay antes de ocultar
+        clearTimeout(timer);
+        timer = setTimeout(() => nav.classList.add('nav--hidden'), 300);
+      } else {
+        // Subindo — aparece imediatamente
+        clearTimeout(timer);
+        nav.classList.remove('nav--hidden');
+      }
     } else {
-      // scrolling up — aparece imediatamente
-      clearTimeout(hideTimer);
+      clearTimeout(timer);
       nav.classList.remove('nav--hidden');
     }
-  } else {
-    clearTimeout(hideTimer);
-    nav.classList.remove('nav--hidden');
+
+    lastY = y;
   }
 
-  lastScrollY = y;
-};
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
 
-// ============== Reveal on scroll (bidirectional) ==============
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('in');
-    else e.target.classList.remove('in');
-  });
+
+// ─── Revelar elementos ao entrar na tela ────────────────────────────────────
+
+const revealIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => e.target.classList.toggle('in', e.isIntersecting));
 }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// ============== Live clock + open/closed ==============
-function getHoursForDay(d) {
-  if (d === 0) return [6, 20];      // domingo
-  return [6, 22];                    // seg-sáb
-}
-function fmt(n) { return String(n).padStart(2, '0'); }
-function updateClock() {
-  const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes();
-  const s = now.getSeconds();
-  document.getElementById('clock').textContent = fmt(h) + ':' + fmt(m) + ':' + fmt(s);
-  const dpClock = document.getElementById('dp-clock');
-  if (dpClock) dpClock.textContent = fmt(h) + ':' + fmt(m);
+document.querySelectorAll('.reveal').forEach(el => revealIO.observe(el));
 
-  // hero time tag (real day/night by hour, independent of theme)
-  const isDayTime = h >= 6 && h < 18;
-  const tag = document.getElementById('ht-label');
-  if (tag) tag.textContent = (isDayTime ? 'Dia' : 'Noite') + ' · ' + fmt(h) + ':' + fmt(m);
 
-  const day = now.getDay();
-  const [open, close] = getHoursForDay(day);
-  const isOpen = h >= open && h < close;
-  const statusEl = document.getElementById('hero-status');
-  const statusText = document.getElementById('status-text');
-  const liveBadge = document.getElementById('live-badge');
-  const liveText = document.getElementById('live-text');
+// ─── Marquee infinito ────────────────────────────────────────────────────────
 
-  if (isOpen) {
-    statusEl.classList.remove('closed');
-    statusText.textContent = 'Aberta agora · até ' + fmt(close) + 'h';
-    liveBadge.classList.remove('closed');
-    liveText.textContent = 'Aberta agora · até ' + fmt(close) + 'h';
-  } else {
-    statusEl.classList.add('closed');
-    let nextDay = (h < open) ? day : (day + 1) % 7;
-    const dayNames = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
-    statusText.textContent = 'Fechada agora · abre ' + (h < open ? 'hoje' : nextDay === (day+1)%7 ? 'amanhã' : dayNames[nextDay]) + ' às 06h';
-    liveBadge.classList.add('closed');
-    liveText.textContent = 'Fechada · abre às 06h';
-  }
-
-  // highlight today's row
-  const rows = document.querySelectorAll('.day-row');
-  rows.forEach(r => {
-    const rd = parseInt(r.dataset.day);
-    r.classList.toggle('today', rd === day);
-  });
-}
-updateClock();
-setInterval(updateClock, 1000);
-
-// ============== Marquee duplicate for seamless loop ==============
 const marquee = document.getElementById('marquee');
-marquee.innerHTML = marquee.innerHTML + marquee.innerHTML;
+marquee.innerHTML += marquee.innerHTML;
 
-// ============== Lottie delivery animation ==============
-const lottieContainer = document.getElementById('delivery-lottie');
-if (lottieContainer && typeof lottie !== 'undefined') {
-  lottie.loadAnimation({
-    container: lottieContainer,
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    path: 'assets/Delivery.json'
-  });
-}
 
-// ============== Count-up animation ==============
-function countUp(el) {
-  const target   = +el.dataset.count;
-  const suffix   = el.dataset.suffix  || '';
-  const prefix   = el.dataset.prefix  || '';
-  const pad      = +el.dataset.pad    || 0;
-  const thousands = el.dataset.thousands || '';
-  const duration = 1400;
-  const start    = performance.now();
+// ─── Animação Lottie (entrega) ───────────────────────────────────────────────
 
-  function format(n) {
-    let str = Math.round(n).toString();
-    if (pad) str = str.padStart(pad, '0');
-    if (thousands) str = str.replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
-    return prefix + str + suffix;
-  }
-
-  function tick(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    const ease = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-    el.textContent = format(ease * target);
-    if (progress < 1) requestAnimationFrame(tick);
-  }
-
-  requestAnimationFrame(tick);
-}
-
-const countEls = document.querySelectorAll('.num[data-count]');
-const countIO = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      countUp(e.target);
-      countIO.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.3 });
-
-// Start observing only after hero-stats fades in, so count-up is visible
-const heroStats = document.querySelector('.hero-stats');
-function startCountObserver() {
-  countEls.forEach(el => countIO.observe(el));
-}
-if (heroStats) {
-  heroStats.addEventListener('animationend', startCountObserver, { once: true });
-} else {
-  startCountObserver();
-}
-
-// ============== Typewriter hero title ==============
 (function () {
-  const phrases = [
-    { accent: 'receita',      rest: ' há gerações.'       },
-    { accent: 'porta',        rest: ' com tele-entrega.'  },
-    { accent: 'farmacêutico', rest: ' no balcão.'         },
-    { accent: 'saúde',        rest: ' de bairro.'         },
-    { accent: 'cuidado',      rest: ' pelo nome.'         },
-  ];
+  const el = document.getElementById('delivery-lottie');
+  if (!el || typeof lottie === 'undefined') return;
+  lottie.loadAnimation({ container: el, renderer: 'svg', loop: true, autoplay: true, path: 'assets/Delivery.json' });
+})();
 
+
+// ─── Contadores animados ─────────────────────────────────────────────────────
+
+(function () {
+  function countUp(el) {
+    const target   = +el.dataset.count;
+    const suffix   = el.dataset.suffix   || '';
+    const prefix   = el.dataset.prefix   || '';
+    const pad      = +el.dataset.pad     || 0;
+    const sep      = el.dataset.thousands || '';
+    const duration = 1400;
+    const start    = performance.now();
+
+    function format(n) {
+      let str = Math.round(n).toString();
+      if (pad) str = str.padStart(pad, '0');
+      if (sep) str = str.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+      return prefix + str + suffix;
+    }
+
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      el.textContent = format((1 - Math.pow(1 - p, 3)) * target); // ease-out cúbico
+      if (p < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  const els = document.querySelectorAll('.num[data-count]');
+  const io  = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { countUp(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+
+  // Aguarda a animação de entrada do bloco para a contagem ficar visível
+  const stats = document.querySelector('.hero-stats');
+  const start = () => els.forEach(el => io.observe(el));
+  stats ? stats.addEventListener('animationend', start, { once: true }) : start();
+})();
+
+
+// ─── Máquina de escrever no título do hero ───────────────────────────────────
+
+(function () {
   const accentEl = document.getElementById('tw-accent');
   const restEl   = document.getElementById('tw-rest');
   if (!accentEl || !restEl) return;
 
-  const SPEED_TYPE   = 130;  // ms per char while typing
-  const SPEED_DELETE = 45;   // ms per char while deleting
-  const PAUSE_AFTER  = 4800; // ms to hold the full phrase
-  const PAUSE_NEXT   = 500;  // ms pause after deleting before next phrase
-  const PAUSE_START  = 900;  // ms before first phrase begins
+  const frases = [
+    { accent: 'receita',      rest: ' há gerações.'      },
+    { accent: 'porta',        rest: ' com tele-entrega.' },
+    { accent: 'farmacêutico', rest: ' no balcão.'        },
+    { accent: 'saúde',        rest: ' de bairro.'        },
+    { accent: 'cuidado',      rest: ' pelo nome.'        },
+  ];
+
+  const DIGITAR  = 130;  // ms por caractere ao escrever
+  const APAGAR   = 45;   // ms por caractere ao apagar
+  const PAUSA    = 4800; // ms com a frase completa visível
+  const INTERVALO = 500; // ms entre apagar e começar a próxima
+  const INICIO   = 900;  // ms antes de começar a primeira frase
 
   let idx = 0;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-  async function typeText(el, text, speed) {
-    for (let i = 0; i <= text.length; i++) {
-      el.textContent = text.slice(0, i);
-      await sleep(speed + (Math.random() * 14 - 7));
+  async function escrever(el, texto, vel) {
+    for (let i = 0; i <= texto.length; i++) {
+      el.textContent = texto.slice(0, i);
+      await sleep(vel + (Math.random() * 14 - 7));
     }
   }
 
-  async function deleteText(el, speed) {
-    const text = el.textContent;
-    for (let i = text.length; i >= 0; i--) {
-      el.textContent = text.slice(0, i);
-      await sleep(speed + (Math.random() * 10 - 5));
+  async function apagar(el, vel) {
+    const texto = el.textContent;
+    for (let i = texto.length; i >= 0; i--) {
+      el.textContent = texto.slice(0, i);
+      await sleep(vel + (Math.random() * 10 - 5));
     }
   }
 
   async function loop() {
-    await sleep(PAUSE_START);
+    await sleep(INICIO);
     while (true) {
-      const { accent, rest } = phrases[idx];
-      await typeText(accentEl, accent, SPEED_TYPE);
-      await typeText(restEl, rest, SPEED_TYPE);
-      await sleep(PAUSE_AFTER);
-      await deleteText(restEl, SPEED_DELETE);
-      await deleteText(accentEl, SPEED_DELETE);
-      await sleep(PAUSE_NEXT);
-      idx = (idx + 1) % phrases.length;
+      const { accent, rest } = frases[idx];
+      await escrever(accentEl, accent, DIGITAR);
+      await escrever(restEl, rest, DIGITAR);
+      await sleep(PAUSA);
+      await apagar(restEl, APAGAR);
+      await apagar(accentEl, APAGAR);
+      await sleep(INTERVALO);
+      idx = (idx + 1) % frases.length;
     }
   }
 
   loop();
 })();
 
-// ============== Portrait crossfade (timer + scroll) ==============
+
+// ─── Crossfade das fotos dos farmacêuticos ───────────────────────────────────
+
 (function () {
   const frame  = document.getElementById('portrait-frame');
   const slides = frame ? frame.querySelectorAll('.portrait-slide') : [];
   const shine  = frame ? frame.querySelector('.portrait-shine') : null;
   if (slides.length < 2) return;
 
-  let current = 0;
+  let current     = 0;
   let lastSwitchY = window.scrollY;
-  const SCROLL_THRESHOLD = 120;
+  const MIN_SCROLL = 120; // px mínimos para trocar ao rolar
 
-  function triggerShine() {
+  function dispararBrilho() {
     if (!shine) return;
     shine.classList.remove('shine-play');
-    // force reflow so the class removal is committed before re-adding
-    void shine.offsetWidth;
+    void shine.offsetWidth; // força reflow para reiniciar a transição
     shine.classList.add('shine-play');
     shine.addEventListener('transitionend', () => shine.classList.remove('shine-play'), { once: true });
   }
 
-  function switchPortrait() {
+  function trocarFoto() {
     slides[current].classList.remove('active');
     current = (current + 1) % slides.length;
     slides[current].classList.add('active');
-    triggerShine();
+    dispararBrilho();
     lastSwitchY = window.scrollY;
   }
 
   // Troca automática a cada 10s
-  setInterval(switchPortrait, 10000);
+  setInterval(trocarFoto, 10000);
 
-  // Troca ao rolar (sobe ou desce) mais de SCROLL_THRESHOLD desde a última troca
+  // Troca ao rolar mais de MIN_SCROLL desde a última troca
   window.addEventListener('scroll', () => {
-    if (Math.abs(window.scrollY - lastSwitchY) >= SCROLL_THRESHOLD) {
-      switchPortrait();
-    }
+    if (Math.abs(window.scrollY - lastSwitchY) >= MIN_SCROLL) trocarFoto();
   }, { passive: true });
 })();
