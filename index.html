@@ -683,52 +683,63 @@
 <!-- =========== TRABALHE CONOSCO =========== -->
 <section class="block trabalhe" id="trabalhe-conosco">
   <div class="container">
-    <div class="sec-head">
-      <div>
-        <div class="eyebrow reveal" style="margin-bottom:18px;">— Trabalhe conosco</div>
+    <div class="trabalhe-layout">
+
+      <!-- ESQUERDA: copy -->
+      <div class="trabalhe-copy">
+        <div class="eyebrow reveal">— Trabalhe conosco</div>
         <h2 class="sec-title reveal delay-1">Faça parte da<br/>nossa <em>equipe.</em></h2>
+        <p class="trabalhe-desc reveal delay-2">Buscamos pessoas comprometidas, com vontade de cuidar de gente de verdade. Se você quer crescer numa farmácia de bairro que valoriza quem trabalha, vem com a gente.</p>
+        <ul class="trabalhe-perks reveal delay-3">
+          <li><span class="perk-dot" aria-hidden="true"></span>Ambiente acolhedor e equipe unida</li>
+          <li><span class="perk-dot" aria-hidden="true"></span>Horários definidos e estabilidade</li>
+          <li><span class="perk-dot" aria-hidden="true"></span>Oportunidade de crescimento</li>
+        </ul>
       </div>
-      <p class="sec-desc reveal delay-2">Buscamos pessoas comprometidas, com vontade de cuidar de gente de verdade. Se você quer crescer numa farmácia de bairro que valoriza quem trabalha, vem com a gente.</p>
-    </div>
 
-    <div class="tc-card reveal delay-3">
-      <div class="tc-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2"/>
-          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
-          <line x1="12" y1="12" x2="12" y2="16"/>
-          <line x1="10" y1="14" x2="14" y2="14"/>
-        </svg>
-      </div>
-      <div class="tc-body">
-        <h3>Candidate-se agora</h3>
-        <p>Selecione seu currículo abaixo e clique em enviar. O WhatsApp vai abrir com a mensagem pronta — é só anexar o arquivo e mandar.</p>
+      <!-- DIREITA: formulário -->
+      <div class="trabalhe-form reveal delay-2">
 
-        <!-- Área de seleção de arquivo -->
-        <label class="tc-dropzone" id="tc-dropzone" for="tc-file-input">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
+        <div class="tc-steps" aria-label="Como enviar">
+          <div class="tc-step">
+            <span class="tc-step-n">1</span>
+            <span class="tc-step-label">Selecione o arquivo</span>
+          </div>
+          <svg class="tc-step-arrow" viewBox="0 0 24 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M0 3 H22 M18 0 L22 3 L18 6"/>
           </svg>
-          <span class="tc-dz-text" id="tc-dz-text">Clique para selecionar seu currículo</span>
-          <span class="tc-dz-hint">PDF, DOC ou DOCX · até 20 MB</span>
+          <div class="tc-step">
+            <span class="tc-step-n">2</span>
+            <span class="tc-step-label">Envie pelo WhatsApp</span>
+          </div>
+        </div>
+
+        <label class="tc-dropzone" id="tc-dropzone" for="tc-file-input">
+          <div class="tc-dz-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="12" y1="18" x2="12" y2="12"/>
+              <line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <span class="tc-dz-title" id="tc-dz-text">Clique ou arraste seu currículo aqui</span>
+          <span class="tc-dz-hint">PDF, DOC ou DOCX</span>
           <input type="file" id="tc-file-input" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none;" aria-label="Selecionar currículo"/>
         </label>
 
-        <div class="tc-actions">
-          <button id="tc-wpp-btn" class="tc-btn tc-btn--whatsapp" disabled>
-            <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-              <path d="M16.001 2.667c-7.36 0-13.333 5.973-13.333 13.333 0 2.347.613 4.64 1.787 6.667l-1.893 6.92 7.093-1.86c1.96 1.067 4.16 1.633 6.347 1.633h.005c7.36 0 13.333-5.973 13.333-13.333S23.36 2.667 16 2.667zm0 24.4c-1.973 0-3.92-.533-5.627-1.547l-.4-.24-4.213 1.107 1.12-4.107-.267-.427c-1.107-1.76-1.693-3.787-1.693-5.853 0-6.107 4.973-11.08 11.08-11.08s11.08 4.973 11.08 11.08-4.973 11.067-11.08 11.067zm6.067-8.293c-.333-.16-1.973-.973-2.28-1.08-.307-.107-.533-.16-.747.16-.213.32-.853 1.08-1.04 1.293-.187.213-.387.24-.72.08-.333-.16-1.413-.52-2.693-1.667-.987-.88-1.667-1.973-1.853-2.307-.187-.32-.027-.493.147-.667.147-.147.32-.387.493-.587.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.747-1.787-1.013-2.44-.267-.64-.547-.547-.747-.547h-.64c-.213 0-.56.08-.853.4-.293.32-1.12 1.093-1.12 2.667 0 1.573 1.147 3.093 1.307 3.307.16.213 2.253 3.44 5.467 4.827.76.32 1.36.533 1.827.667.773.24 1.467.213 2.027.133.613-.093 1.973-.8 2.253-1.587.28-.787.28-1.453.187-1.6-.093-.147-.32-.213-.667-.373z"/>
-            </svg>
-            Enviar pelo WhatsApp
-          </button>
-        </div>
+        <button id="tc-wpp-btn" class="tc-wpp-btn" disabled>
+          <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+            <path d="M16.001 2.667c-7.36 0-13.333 5.973-13.333 13.333 0 2.347.613 4.64 1.787 6.667l-1.893 6.92 7.093-1.86c1.96 1.067 4.16 1.633 6.347 1.633h.005c7.36 0 13.333-5.973 13.333-13.333S23.36 2.667 16 2.667zm0 24.4c-1.973 0-3.92-.533-5.627-1.547l-.4-.24-4.213 1.107 1.12-4.107-.267-.427c-1.107-1.76-1.693-3.787-1.693-5.853 0-6.107 4.973-11.08 11.08-11.08s11.08 4.973 11.08 11.08-4.973 11.067-11.08 11.067zm6.067-8.293c-.333-.16-1.973-.973-2.28-1.08-.307-.107-.533-.16-.747.16-.213.32-.853 1.08-1.04 1.293-.187.213-.387.24-.72.08-.333-.16-1.413-.52-2.693-1.667-.987-.88-1.667-1.973-1.853-2.307-.187-.32-.027-.493.147-.667.147-.147.32-.387.493-.587.16-.187.213-.32.32-.533.107-.213.053-.4-.027-.56-.08-.16-.747-1.787-1.013-2.44-.267-.64-.547-.547-.747-.547h-.64c-.213 0-.56.08-.853.4-.293.32-1.12 1.093-1.12 2.667 0 1.573 1.147 3.093 1.307 3.307.16.213 2.253 3.44 5.467 4.827.76.32 1.36.533 1.827.667.773.24 1.467.213 2.027.133.613-.093 1.973-.8 2.253-1.587.28-.787.28-1.453.187-1.6-.093-.147-.32-.213-.667-.373z"/>
+          </svg>
+          Enviar pelo WhatsApp
+        </button>
 
         <p class="tc-hint" id="tc-hint" style="display:none;">
-          O WhatsApp vai abrir com a mensagem pronta. Clique no <strong>📎</strong> dentro do app e selecione o arquivo <strong id="tc-filename"></strong> para enviar.
+          WhatsApp aberto com a mensagem pronta. Dentro do app, toque em <strong>📎</strong> e selecione o arquivo <strong id="tc-filename"></strong> para enviar.
         </p>
       </div>
+
     </div>
   </div>
 </section>

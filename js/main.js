@@ -388,7 +388,7 @@ marquee.innerHTML += marquee.innerHTML;
     e.preventDefault();
     dropzone.classList.remove('tc-dropzone--drag');
     const file = e.dataTransfer.files[0];
-    if (file) { input.files = e.dataTransfer.files; onFileSelected(file); }
+    if (file) onFileSelected(file);
   });
 
   btn.addEventListener('click', () => {
