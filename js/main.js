@@ -316,10 +316,15 @@ marquee.innerHTML += marquee.innerHTML;
 // ─── Crossfade das fotos dos farmacêuticos ───────────────────────────────────
 
 (function () {
-  const frame  = document.getElementById('portrait-frame');
-  const slides = frame ? frame.querySelectorAll('.portrait-slide') : [];
-  const shine  = frame ? frame.querySelector('.portrait-shine') : null;
+  const frame     = document.getElementById('portrait-frame');
+  const slides    = frame ? frame.querySelectorAll('.portrait-slide') : [];
+  const shine     = frame ? frame.querySelector('.portrait-shine') : null;
+  const caption   = document.getElementById('portrait-caption');
+  const capSlides = caption ? Array.from(caption.querySelectorAll('.pc-slide')) : [];
   if (slides.length < 2) return;
+
+  // Garante estado inicial: só o primeiro caption visível
+  capSlides.forEach((s, i) => { s.style.display = i === 0 ? 'flex' : 'none'; });
 
   let current     = 0;
   let lastSwitchY = window.scrollY;
@@ -335,8 +340,10 @@ marquee.innerHTML += marquee.innerHTML;
 
   function trocarFoto() {
     slides[current].classList.remove('active');
+    if (capSlides.length) capSlides[current].style.display = 'none';
     current = (current + 1) % slides.length;
     slides[current].classList.add('active');
+    if (capSlides.length) capSlides[current].style.display = 'flex';
     dispararBrilho();
     lastSwitchY = window.scrollY;
   }
