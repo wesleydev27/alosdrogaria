@@ -2343,10 +2343,47 @@ html[data-theme="dark"] .fab-wpp { background: linear-gradient(160deg, #25D366, 
 }
 .tc-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.12); }
 .tc-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
-.tc-btn--download {
-  background: var(--wine);
-  color: #fff;
+.tc-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 28px 20px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-align: center;
 }
+.tc-dropzone:hover,
+.tc-dropzone--drag { border-color: var(--wine); background: rgba(92,10,32,.04); }
+.tc-dropzone svg { width: 32px; height: 32px; color: var(--wine); }
+.tc-dz-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-1);
+  word-break: break-all;
+}
+.tc-dz-hint {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.tc-dropzone--selected { border-color: var(--wine); border-style: solid; background: rgba(92,10,32,.04); }
+.tc-dropzone--selected svg { color: #25a244; }
+.tc-btn[disabled] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+.tc-hint {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--ink-2);
+  background: var(--paper-2);
+  border-left: 3px solid #25D366;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  line-height: 1.5;
+}
+.tc-hint strong { color: var(--ink-1); }
 .tc-btn--whatsapp {
   background: #25D366;
   color: #fff;

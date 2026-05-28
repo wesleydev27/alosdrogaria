@@ -356,3 +356,43 @@ marquee.innerHTML += marquee.innerHTML;
     if (Math.abs(window.scrollY - lastSwitchY) >= MIN_SCROLL) trocarFoto();
   }, { passive: true });
 })();
+
+// ─── Trabalhe Conosco — seleção de currículo + WhatsApp ──────────────────────
+(function () {
+  const input    = document.getElementById('tc-file-input');
+  const dropzone = document.getElementById('tc-dropzone');
+  const dzText   = document.getElementById('tc-dz-text');
+  const btn      = document.getElementById('tc-wpp-btn');
+  const hint     = document.getElementById('tc-hint');
+  const fnSpan   = document.getElementById('tc-filename');
+  if (!input || !btn) return;
+
+  const WPP_URL = 'https://wa.me/5519990035947?text=Ol%C3%A1!%20Tenho%20interesse%20em%20trabalhar%20na%20Alos%20Drogaria.%20Segue%20meu%20curr%C3%ADculo%20em%20anexo.';
+
+  function onFileSelected(file) {
+    if (!file) return;
+    dzText.textContent = file.name;
+    dropzone.classList.add('tc-dropzone--selected');
+    btn.disabled = false;
+    if (fnSpan) fnSpan.textContent = file.name;
+  }
+
+  input.addEventListener('change', () => {
+    if (input.files && input.files[0]) onFileSelected(input.files[0]);
+  });
+
+  // Drag & drop
+  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('tc-dropzone--drag'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('tc-dropzone--drag'));
+  dropzone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropzone.classList.remove('tc-dropzone--drag');
+    const file = e.dataTransfer.files[0];
+    if (file) { input.files = e.dataTransfer.files; onFileSelected(file); }
+  });
+
+  btn.addEventListener('click', () => {
+    if (hint) hint.style.display = 'block';
+    window.open(WPP_URL, '_blank', 'noopener');
+  });
+})();
