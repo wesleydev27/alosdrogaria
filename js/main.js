@@ -367,7 +367,7 @@ marquee.innerHTML += marquee.innerHTML;
   const fnSpan   = document.getElementById('tc-filename');
   if (!input || !btn) return;
 
-  const WPP_URL = 'https://wa.me/5519990035947?text=Ol%C3%A1!%20Tenho%20interesse%20em%20trabalhar%20na%20Alos%20Drogaria.%20Segue%20meu%20curr%C3%ADculo%20em%20anexo.';
+  const WPP_URL = 'https://wa.me/5519996926041?text=Ol%C3%A1!%20Tenho%20interesse%20em%20trabalhar%20na%20Alos%20Drogaria.%20Segue%20meu%20curr%C3%ADculo%20em%20anexo.';
 
   function onFileSelected(file) {
     if (!file) return;

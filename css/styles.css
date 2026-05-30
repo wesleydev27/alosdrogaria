@@ -2287,112 +2287,180 @@ html[data-theme="dark"] .fab { background: var(--paper-2); color: var(--cream); 
 html[data-theme="dark"] .fab-wpp { background: linear-gradient(160deg, #25D366, #0E7060); color: #fff; }
 
 /* ============== TRABALHE CONOSCO ============== */
-.tc-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 32px;
-  background: var(--paper-2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px 44px;
-  margin-top: 48px;
+.trabalhe-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
 }
-.tc-icon {
+.trabalhe-copy .eyebrow { margin-bottom: 18px; }
+.trabalhe-desc {
+  font-size: 16px;
+  color: var(--ink-2);
+  line-height: 1.7;
+  margin-top: 20px;
+  max-width: 440px;
+}
+.trabalhe-perks {
+  list-style: none;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.trabalhe-perks li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.perk-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--wine);
   flex-shrink: 0;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+}
+
+/* Form side */
+.trabalhe-form {
+  background: var(--paper-2);
+  border-radius: 20px;
+  padding: 36px 36px 32px;
+  border: 1px solid var(--wine-line);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Steps */
+.tc-steps {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tc-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tc-step-n {
+  width: 28px; height: 28px;
+  border-radius: 50%;
   background: var(--wine);
   color: #fff;
+  font-size: 13px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
-.tc-icon svg { width: 28px; height: 28px; }
-.tc-body { flex: 1; }
-.tc-body h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
+.tc-step-label {
+  font-size: 13px;
   font-weight: 600;
-  color: var(--wine-ink);
-  margin-bottom: 10px;
-}
-.tc-body p {
-  font-size: 15px;
   color: var(--ink-2);
-  line-height: 1.6;
-  max-width: 520px;
-  margin-bottom: 28px;
+  white-space: nowrap;
 }
-.tc-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+.tc-step-arrow {
+  width: 36px;
+  flex-shrink: 0;
+  color: var(--wine-line);
 }
-.tc-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 22px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  transition: transform 0.2s var(--easing), box-shadow 0.2s var(--easing);
-}
-.tc-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.12); }
-.tc-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+/* Dropzone */
 .tc-dropzone {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  border: 2px dashed var(--border);
+  gap: 10px;
+  border: 2px dashed var(--wine-line);
   border-radius: 14px;
-  padding: 28px 20px;
-  margin-bottom: 24px;
+  padding: 32px 20px;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.25s, background 0.25s;
   text-align: center;
 }
 .tc-dropzone:hover,
-.tc-dropzone--drag { border-color: var(--wine); background: rgba(92,10,32,.04); }
-.tc-dropzone svg { width: 32px; height: 32px; color: var(--wine); }
-.tc-dz-text {
+.tc-dropzone--drag {
+  border-color: var(--wine);
+  background: var(--wine-soft);
+}
+.tc-dz-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: var(--wine-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--wine);
+  transition: background 0.25s;
+}
+.tc-dz-icon svg { width: 24px; height: 24px; }
+.tc-dropzone--selected .tc-dz-icon { background: rgba(37,162,68,.12); color: #25a244; }
+.tc-dropzone--selected { border-color: #25a244; border-style: solid; }
+.tc-dz-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--ink-1);
+  color: var(--ink);
   word-break: break-all;
 }
 .tc-dz-hint {
   font-size: 12px;
   color: var(--ink-2);
+  letter-spacing: 0.03em;
 }
-.tc-dropzone--selected { border-color: var(--wine); border-style: solid; background: rgba(92,10,32,.04); }
-.tc-dropzone--selected svg { color: #25a244; }
-.tc-btn[disabled] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
-.tc-hint {
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--ink-2);
-  background: var(--paper-2);
-  border-left: 3px solid #25D366;
-  padding: 10px 14px;
-  border-radius: 0 8px 8px 0;
-  line-height: 1.5;
-}
-.tc-hint strong { color: var(--ink-1); }
-.tc-btn--whatsapp {
+
+/* WhatsApp button */
+.tc-wpp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 50px;
+  border: none;
   background: #25D366;
   color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.2s var(--easing), box-shadow 0.2s var(--easing), opacity 0.2s;
 }
-.tc-btn--whatsapp svg { width: 20px; height: 20px; }
-@media (max-width: 680px) {
-  .tc-card { flex-direction: column; padding: 28px 24px; gap: 20px; }
-  .tc-actions { flex-direction: column; }
-  .tc-btn { justify-content: center; }
+.tc-wpp-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+.tc-wpp-btn:hover:not([disabled]) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37,211,102,.35);
+}
+.tc-wpp-btn[disabled] {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* Hint */
+.tc-hint {
+  font-size: 13px;
+  color: var(--ink-2);
+  background: rgba(37,211,102,.08);
+  border-left: 3px solid #25D366;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  line-height: 1.6;
+  margin-top: -8px;
+}
+.tc-hint strong { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .trabalhe-layout { grid-template-columns: 1fr; gap: 40px; }
+  .trabalhe-desc { max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .trabalhe-form { padding: 24px 20px; }
+  .tc-step-label { font-size: 12px; }
 }
 
 /* ============== SCROLL REVEAL ============== */
