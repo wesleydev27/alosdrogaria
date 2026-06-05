@@ -278,6 +278,7 @@ html[data-theme="dark"] .hero {
   .hero { padding-top: 160px; }
   .nav-logo img { height: 72px; }
   .nav.scrolled .nav-logo img { height: 56px; }
+  .hero-quote { display: none; }
 }
 
 .hero-eyebrow {
@@ -929,7 +930,13 @@ html[data-theme="dark"] .sec-title em { color: var(--gold-soft); }
   gap: 72px;
   align-items: start;
 }
-@media (max-width: 980px) { .servs-layout { grid-template-columns: 1fr; gap: 48px; } }
+@media (max-width: 980px) {
+  .servs-layout { grid-template-columns: 1fr; gap: 48px; }
+  .servs-list-wrap { text-align: center; }
+  .servs-list-wrap .servs-intro,
+  .servs-list-wrap ol { text-align: left; }
+  .servs-cta { margin-left: auto; margin-right: auto; }
+}
 
 /* ---- Portrait column ---- */
 .servs-portrait {
@@ -1293,7 +1300,11 @@ html[data-theme="dark"] .portrait-frame { background: var(--bone); }
   align-items: center;
   min-height: 380px;
 }
-@media (max-width: 860px) { .delivery-card { grid-template-columns: 1fr; padding: 48px 32px; min-height: auto; } }
+@media (max-width: 860px) {
+  .delivery-card { grid-template-columns: 1fr; padding: 48px 32px; min-height: auto; }
+  .delivery-actions { justify-content: center; }
+  .delivery-cta { justify-content: center; }
+}
 
 .delivery-card::before {
   content: '';
@@ -2332,6 +2343,8 @@ html[data-theme="dark"] .fab-wpp { background: linear-gradient(160deg, #25D366, 
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
+  width: 100%;
 }
 
 /* Steps */
@@ -2459,8 +2472,11 @@ html[data-theme="dark"] .fab-wpp { background: linear-gradient(160deg, #25D366, 
   .trabalhe-desc { max-width: 100%; }
 }
 @media (max-width: 480px) {
-  .trabalhe-form { padding: 24px 20px; }
-  .tc-step-label { font-size: 12px; }
+  .trabalhe-form { padding: 24px 16px 20px; }
+  .tc-step-label { font-size: 11px; }
+  .tc-steps { gap: 8px; }
+  .tc-step { gap: 6px; }
+  .tc-step-arrow { width: 24px; }
 }
 
 /* ============== SCROLL REVEAL ============== */
