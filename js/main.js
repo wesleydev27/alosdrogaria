@@ -357,17 +357,23 @@ marquee.innerHTML += marquee.innerHTML;
   }, { passive: true });
 })();
 
-// ─── Trabalhe Conosco — seleção de currículo + WhatsApp ──────────────────────
+// Trabalhe Conosco - selecao de curriculo + e-mail
 (function () {
+  const form     = document.getElementById('tc-form');
   const input    = document.getElementById('tc-file-input');
   const dropzone = document.getElementById('tc-dropzone');
   const dzText   = document.getElementById('tc-dz-text');
-  const btn      = document.getElementById('tc-wpp-btn');
+  const btn      = document.getElementById('tc-email-btn');
   const hint     = document.getElementById('tc-hint');
   const fnSpan   = document.getElementById('tc-filename');
+  const frame    = document.querySelector('iframe[name="tc-submit-frame"]');
+  const modal    = document.getElementById('tc-success-modal');
+  const closeEls = modal ? modal.querySelectorAll('[data-tc-modal-close]') : [];
   if (!input || !btn) return;
 
-  const WPP_URL = 'https://wa.me/5519996926041?text=Ol%C3%A1!%20Tenho%20interesse%20em%20trabalhar%20na%20Alos%20Drogaria.%20Segue%20meu%20curr%C3%ADculo%20em%20anexo.';
+  const defaultText = dzText ? dzText.textContent : '';
+  const defaultBtnHtml = btn.innerHTML;
+  let submitted = false;
 
   function onFileSelected(file) {
     if (!file) return;
@@ -388,11 +394,47 @@ marquee.innerHTML += marquee.innerHTML;
     e.preventDefault();
     dropzone.classList.remove('tc-dropzone--drag');
     const file = e.dataTransfer.files[0];
-    if (file) onFileSelected(file);
+    if (file) {
+      input.files = e.dataTransfer.files;
+      onFileSelected(file);
+    }
   });
 
-  btn.addEventListener('click', () => {
+  function openModal() {
+    if (!modal) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('tc-modal-open');
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('tc-modal-open');
+  }
+
+  closeEls.forEach(el => el.addEventListener('click', closeModal));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  if (form) form.addEventListener('submit', () => {
+    submitted = true;
     if (hint) hint.style.display = 'block';
-    window.open(WPP_URL, '_blank', 'noopener');
+    btn.disabled = true;
+    btn.innerHTML = 'Enviando...';
+  });
+
+  if (frame) frame.addEventListener('load', () => {
+    if (!submitted) return;
+    submitted = false;
+    openModal();
+    if (form) form.reset();
+    if (dzText) dzText.textContent = defaultText;
+    dropzone.classList.remove('tc-dropzone--selected');
+    if (hint) hint.style.display = 'none';
+    btn.innerHTML = defaultBtnHtml;
   });
 })();
